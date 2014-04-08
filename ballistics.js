@@ -77,12 +77,12 @@ function init(id) {
 
 	// better setInterval
 	function friendlyInterval(func, sleep) {
-    var f = function() {
-      setTimeout(f, sleep);
-      func.call();
-    };
+		var f = function() {
+			setTimeout(f, sleep);
+			func.call();
+		};
 
-    setTimeout(f, sleep);
+		setTimeout(f, sleep);
 	};
 
 	friendlyInterval(function() {
@@ -92,7 +92,7 @@ function init(id) {
 		p.towards(Math.random() * GLOBAL.stageWidth, 20);
 		addEntity(p);
 	}, 1000);
-
+	
 } // init
 
 function spawnSingleParticle(x, y) {
