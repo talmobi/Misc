@@ -47,3 +47,12 @@ var Vector2D = (function() {
 
   return self;
 })();
+
+function friendlyInterval(func, sleep) {
+  var intrvl = function() {
+    setTimeout(intrvl, sleep);
+    func.call();
+  };
+
+  setTimeout(intrvl, sleep);
+};
