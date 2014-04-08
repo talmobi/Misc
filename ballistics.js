@@ -39,7 +39,6 @@ function init(id) {
 
 		var p = spawnBox(GLOBAL.stageWidth / 2,GLOBAL.stageHeight - GLOBAL.stageHeight / 3,20,20);
 		p.towards(evt.stageX, evt.stageY);
-
 		addEntity(p);
 	});
 
@@ -78,16 +77,20 @@ function init(id) {
 
 	// better setInterval
 	function friendlyInterval(func, sleep) {
-    var intrvl = function() {
-      setTimeout(intrvl, sleep);
+    var f = function() {
+      setTimeout(f, sleep);
       func.call();
     };
 
-    setTimeout(intrvl, sleep);
+    setTimeout(f, sleep);
 	};
 
 	friendlyInterval(function() {
 		logSpitter();
+
+		var p = spawnBox(GLOBAL.stageWidth / 2,GLOBAL.stageHeight - GLOBAL.stageHeight / 3,20,20);
+		p.towards(Math.random() * GLOBAL.stageWidth, 20);
+		addEntity(p);
 	}, 1000);
 
 } // init
