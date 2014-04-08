@@ -91,8 +91,8 @@ function init(id) {
 		var p = spawnBox(GLOBAL.stageWidth / 2,GLOBAL.stageHeight - GLOBAL.stageHeight / 3,20,20);
 		p.towards(Math.random() * GLOBAL.stageWidth, 20);
 		addEntity(p);
-	}, 1000);
-	
+	}, 2000);
+
 } // init
 
 function spawnSingleParticle(x, y) {
@@ -196,7 +196,7 @@ function tick() {
 		var e = entities[i];
 		if (!e.removed) {
 			e.tick();
-			addEntity(e);
+			buffer.push(e);
 		} else {
 			stage.removeChild(e);
 		}
