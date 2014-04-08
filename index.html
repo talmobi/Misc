@@ -9,18 +9,22 @@
 	</style>
 
 	<script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="utils.js"></script>
 
 	<script type="text/javascript">
 
+		var canvasId = "myCanvas";
 		var stage;
 		var fps = 30;
+
+		var size = 320;
 
 		var GLOBAL = {
 			FPS: fps,
 			gravity: 0.4,
-			stageWidth: 320,
-			stageHeight: 320,
+			stageWidth: size,
+			stageHeight: Math.floor(size * 9 / 16),
 			mousePressed: false
 		}
 
@@ -28,43 +32,49 @@
 		var buffer = [];
 
 		function init() {
-			stage = new createjs.Stage("myCanvas");
+				$(function() {
 
-			stage.addEventListener("stagemousedown" , function(evt) {
-				GLOBAL.mousePressed = true;
+					canvas = $('#' + canvasId)[0];
+					canvas.width = GLOBAL.stageWidth;
+					canvas.height = GLOBAL.stageHeight;
 
-				// add an entity
-				var p = spawnBox(20,32,20,20);
+					stage = new createjs.Stage(canvas);
 
-				p.x = GLOBAL.stageWidth / 2;
-				p.y = GLOBAL.stageHeight - GLOBAL.stageHeight / 3;
+					stage.addEventListener("stagemousedown" , function(evt) {
+						GLOBAL.mousePressed = true;
 
-				p.towards(evt.stageX, evt.stageY);
+						var p = spawnBox(20,32,20,20);
+						p.x = GLOBAL.stageWidth / 2;
+						p.y = GLOBAL.stageHeight - GLOBAL.stageHeight / 3;
 
-				addEntity(p);
+						p.towards(evt.stageX, evt.stageY);
+						addEntity(p);
+					});
+
+					stage.on('stagemouseup', function(){
+						GLOBAL.mousePressed = false;
+					});
+
+					stage.on('stagemousemove', function(evt) {
+						if (GLOBAL.mousePressed) {
+							var p = spawnSingleParticle(evt.stageX, evt.stageY);
+							addEntity(p);
+						}
+					});
+
+					// canvas "around pixel" workaround for 1px thick solid lines.
+					stage.regX = .5;
+					stage.regY = .5;
+
+					// visible border around the app area
+					border = newSquare(1, 1, GLOBAL.stageWidth - 1, GLOBAL.stageHeight - 1);
+
+					stage.addChild(border);
+
+					// ticker
+					createjs.Ticker.addEventListener("tick", tick);
+					createjs.Ticker.setFPS(GLOBAL.FPS);
 			});
-
-			stage.on('stagemouseup', function(){
-				GLOBAL.mousePressed = false;
-			});
-
-			stage.on('stagemousemove', function(evt) {
-				if (GLOBAL.mousePressed) {
-					var p = spawnSingleParticle(evt.stageX, evt.stageY);
-					addEntity(p);
-				}
-			});
-
-			stage.regX = .5;
-			stage.regY = .5;
-
-			border = newSquare(1, 1, GLOBAL.stageWidth - 1, GLOBAL.stageHeight - 1);
-
-			stage.addChild(border);
-
-			// ticker
-			createjs.Ticker.addEventListener("tick", tick);
-			createjs.Ticker.setFPS(GLOBAL.FPS);
 		}
 
 		function spawnSingleParticle(x, y) {
@@ -199,7 +209,7 @@
 
 <body onload="init()">
 	<div id="container">
-		<canvas id="myCanvas" width="320" height="320">
+		<canvas id="myCanvas">
 			HTML5 Canvas not supported by your browser.
 		</canvas>
 	</div>
