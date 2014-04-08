@@ -78,11 +78,11 @@ function init(id) {
 	// better setInterval
 	function friendlyInterval(func, sleep) {
 		var f = function() {
-			setTimeout(f, sleep);
+			setTimeout(f, Math.max(sleep, 30000 / createjs.Ticker.getMeasuredFPS()));
 			func.call();
 		};
 
-		setTimeout(f, sleep);
+		setTimeout(f, 30000 / createjs.Ticker.getMeasuredFPS());
 	};
 
 	friendlyInterval(function() {
