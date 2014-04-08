@@ -1,0 +1,48 @@
+<html>
+
+<head>
+	<title></title>
+	<style>
+		body {
+			background-color: #222;
+		}
+	</style>
+
+	<script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+	<script type="text/javascript">
+
+		var stage;
+
+		var stageWidth = 320;
+		var stageHeight = 320;
+
+		function init() {
+			stage = new createjs.Stage("myCanvas");
+
+			stage.regX = .5;
+			stage.regY = .5;
+
+			var particle = new createjs.Shape();
+			//particle.snapToPixel = true;
+
+			particle.x = 32;
+			particle.y = 32;
+
+			particle.graphics.setStrokeStyle(1).beginStroke("white").rect(0,0,5,5);
+
+			stage.addChild(particle);
+			stage.update();
+
+
+		}
+
+	</script>
+</head>
+
+<body onload="init()">
+	<canvas id="myCanvas" width="320" height="320">
+		Canvas not supported.
+	</canvas>
+</body>
+
+</html>
