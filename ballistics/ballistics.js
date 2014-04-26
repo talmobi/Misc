@@ -11,8 +11,6 @@ var GLOBAL = {
 	mousePressed: false
 }
 
-
-
 var entities = [];
 var buffer = [];
 
