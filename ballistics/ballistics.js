@@ -200,10 +200,13 @@ function tick() {
 		}
 	}
 
-	if (buffer.length > 0) {
-		entities = buffer;
-		buffer = [];
-	}
+	//var t = entities;
+	entities = buffer;
+	buffer = [];
+	/*buffer = t;
+	while (buffer.length > 0) {
+		buffer.pop();
+	}*/
 }
 
 function addEntity(e) {
