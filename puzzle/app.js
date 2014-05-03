@@ -48,19 +48,26 @@ var Piece = function(sx,sy,sw,sh,x,y,w,h) {
 }
 
 img.onload = function() {
+	var sw = img.width / gridw;
+	var sh = img.height / gridh;
+	var dw = canvas.width / gridw;
+	var dh = canvas.height / gridh;
+	
 	for (var i = 0; i < gridw; i++) {
 		for (var j = 0; j < gridh; j++) {
-			var w = img.width / gridw;
-			var h = img.height / gridh;
-			var x = i * w;
-			var y = j * h;
+			var sx = i * sw;
+			var sy = j * sh;
 			var dx = canvas.width / gridw * i;
 			var dy = canvas.height / gridh * j
-			var p = new Piece(x, y, x + w, y + h,
-				dx, dy,
-				dx + canvas.width / gridw, dy + canvas.height / gridh);
+			var p = new Piece(sx, sy,
+				sw, sh,
+				dx + 1, dy + 1,
+				dw - 1, dh - 1);
 			grid[i][j] = p;
 			p.draw(ctx);
 		}
 	}
+
+
+	//grid[1][1].draw(ctx);
 }
