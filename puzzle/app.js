@@ -9,6 +9,11 @@ canvas.style.position = "absolute";
 
 document.body.appendChild(canvas);
 
+var msg = document.createElement('p');
+msg.style.top = "300px";
+msg.style.position = "absolute";
+document.body.appendChild(msg);
+
 var img = new Image();
 img.src = "aphextwin.jpg"
 
@@ -115,8 +120,6 @@ canvas.addEventListener('mousedown', function(evt) {
 
 	selected = grid[x][y];
 	selected.drawToPressed(ctx, x * dw, y * dh);
-
-	console.log("x: " + x + ", y: " + y);
 });
 
 canvas.addEventListener('mouseup', function(evt) {
@@ -150,7 +153,18 @@ canvas.addEventListener('mouseup', function(evt) {
 				grid[i][j].drawTo(ctx, i * dw, j * dh);
 			}
 		}
-	}
 
-	console.log("x: " + x + ", y: " + y);
+		// check win state
+		for (var i = 0; i < gridw; i++) {
+			for (var j = 0; j < gridh; j++) {
+				var p = grid[i][j];
+				if (p.oi !== i || p.oj !== j) {
+					msg.innerHTML = "Not yet complete.";
+					return;
+				}
+			}
+		}
+		// reached win sate
+		msg.innerHTML = "Finished!";
+	}
 });
