@@ -190,6 +190,7 @@ function tick() {
 		stage.addChild( spawnSingleParticle() );
 	} */
 
+	var shouldSwap = false;
 	for (var i = 0; i < entities.length; i++) {
 		var e = entities[i];
 		if (!e.removed) {
@@ -200,13 +201,13 @@ function tick() {
 		}
 	}
 
-	//var t = entities;
+	var t = entities;
 	entities = buffer;
-	buffer = [];
-	/*buffer = t;
+	//buffer = [];
+	buffer = t;
 	while (buffer.length > 0) {
 		buffer.pop();
-	}*/
+	}
 }
 
 function addEntity(e) {
