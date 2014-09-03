@@ -15,15 +15,18 @@
 </head>
 
 <body>
-	<audio src="mus/avril14th.mp3" autoplay loop id="music"></audio>
+	<audio src="mus/avril14thnes.mp3" autoplay loop id="music"></audio>
 	<script type="text/javascript">
 		var scene, camera, renderer;
-    var geometry, material, mesh;
+    var geometry, material, mesh, mesh2;
 
     init();
     animate();
 
     function init() {
+
+        container = document.createElement( 'div' );
+        document.body.appendChild( container );
 
         scene = new THREE.Scene();
 
@@ -37,9 +40,9 @@
         scene.add(light);
 
         // AHPEX TWIN BOX
-        var size = window.innerWidth / 4;
+        var size = window.innerWidth / 3;
         geometry = new THREE.BoxGeometry( size, size, size );
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshBasicMaterial({
         	map: THREE.ImageUtils.loadTexture('img/aphex_twin_logo.jpg')
         });
 
@@ -47,19 +50,49 @@
         mesh.position.set(0,0,0);
         scene.add( mesh );
 
-        renderer = new THREE.CanvasRenderer();
+        // APHEX TWIN PIXEL BOX
+        var size = window.innerWidth / 4;
+        geometry = new THREE.BoxGeometry( size, size, size );
+        material = new THREE.MeshBasicMaterial({
+            map: THREE.ImageUtils.loadTexture('img/aphex_twin_logo_px2.jpg')
+        });
+
+        mesh2 = new THREE.Mesh( geometry, material );
+        mesh2.position.set(0,0,0);
+        scene.add( mesh2 );
+
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
         renderer.setSize( window.innerWidth, window.innerHeight );
 
-        document.body.appendChild( renderer.domElement );
+        container.appendChild( renderer.domElement );
+
+        // start roations
+        mesh.rotation.x = .5;
+        mesh.rotation.y = .4;
+        // start roations
+        mesh2.rotation.x = -.5;
+        mesh2.rotation.y = -.4;
     }
 
+    var defz = -3000;
+
+    var ticks;
+
     function animate() {
+        ticks++;
 
         // note: three.js includes requestAnimationFrame shim
         requestAnimationFrame( animate );
 
         mesh.rotation.x += 0.001;
         mesh.rotation.y += 0.002;
+        mesh.position.x = Math.sin(mesh.rotation.x * 1) * 600 - 400;
+        mesh.position.z = Math.sin(mesh.rotation.x * 3) * 120 - Math.cos(mesh.rotation.y * 4) * 200;
+
+        mesh2.rotation.x += 0.0011;
+        mesh2.rotation.y += 0.0016;
+        mesh2.position.x = Math.sin(mesh2.rotation.x * 1 * 2) * 600 / 3- 400;
+        mesh2.position.z = Math.sin(mesh2.rotation.x * 3 * 2) * 120 / 3 - Math.cos(mesh2.rotation.y * 4) * 200 / 3;
 
         renderer.render( scene, camera );
 
