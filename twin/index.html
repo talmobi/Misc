@@ -1,0 +1,70 @@
+<html>
+<head>
+	<title>Aphex Twin Doodle</title>
+
+	<style type="text/css">
+		body {
+			background-color: #222;
+			color: #EEE;
+		}
+	</style>
+
+	<!-- load three.js -->
+	<script type="text/javascript" src="http://threejs.org/build/three.min.js"></script>
+
+</head>
+
+<body>
+	<audio src="mus/avril14th.mp3" autoplay loop id="music"></audio>
+	<script type="text/javascript">
+		var scene, camera, renderer;
+    var geometry, material, mesh;
+
+    init();
+    animate();
+
+    function init() {
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.z = 1000;
+
+
+        // LIGHT
+        var light = new THREE.PointLight(0xff0000);
+        light.position.set(0,150,200);
+        scene.add(light);
+
+        // AHPEX TWIN BOX
+        var size = window.innerWidth / 4;
+        geometry = new THREE.BoxGeometry( size, size, size );
+        material = new THREE.MeshLambertMaterial({
+        	map: THREE.ImageUtils.loadTexture('img/aphex_twin_logo.jpg')
+        });
+
+        mesh = new THREE.Mesh( geometry, material );
+        mesh.position.set(0,0,0);
+        scene.add( mesh );
+
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+    }
+
+    function animate() {
+
+        // note: three.js includes requestAnimationFrame shim
+        requestAnimationFrame( animate );
+
+        mesh.rotation.x += 0.001;
+        mesh.rotation.y += 0.002;
+
+        renderer.render( scene, camera );
+
+    }
+	</script>
+</body>
+
+</html>
